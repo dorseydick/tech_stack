@@ -8,8 +8,8 @@ import * as actions from '../actions';
 class ListItem extends Component {
 
   renderDescription() {
-    const { library, selectedLibraryId } = this.props;
-      if (library.id === selectedLibraryId) {
+    const { library, expanded } = this.props;
+      if (expanded) {
       return (
         <Text>{library.description}</Text>
       );
@@ -44,10 +44,11 @@ const styles = {
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    selectedLibraryId: state.selectedLibraryId
-  };
+//ownprops are the props that are passed to components we're wrapping
+//Allows us to remove logic from component
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.selectedLibraryId === ownProps.library.id;
+  return { expanded };
 };
 
 //called with mapStateToProps, then bind action creators to component
