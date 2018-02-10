@@ -7,9 +7,19 @@ import * as actions from '../actions';
 
 class ListItem extends Component {
 
+  renderDescription() {
+    const { library, selectedLibraryId } = this.props;
+      if (library.id === selectedLibraryId) {
+      return (
+        <Text>{library.description}</Text>
+      );
+    }
+  }
+
   render() {
     const { id, title } = this.props.library;
     const { titleStyle } = styles;
+
     return (
       <TouchableWithoutFeedback
         onPress={() => this.props.selectLibrary(id)}
@@ -20,6 +30,7 @@ class ListItem extends Component {
               {title}
             </Text>
           </CardSection>
+          {this.renderDescription()}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -33,6 +44,12 @@ const styles = {
   }
 };
 
+const mapStateToProps = state => {
+  return {
+    selectedLibraryId: state.selectedLibraryId
+  };
+};
+
 //called with mapStateToProps, then bind action creators to component
 //no map state to props so we pass null
-export default connect(null, actions)(ListItem);
+export default connect(mapStateToProps, actions)(ListItem);
